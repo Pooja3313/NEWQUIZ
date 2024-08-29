@@ -255,7 +255,7 @@ const Addtask = () => {
                   <span
                     style={{
                       backgroundColor:
-                        task.status === "Not Completed" ? "#e67e22" : "#27ae60",
+                        task.status === "Not Completed" ? "#e67e22" : task.status==="Passed"? "#27ae60" :"#D22B2B",
                       color: "#ecf0f1",
                       padding: "5px 10px",
                       borderRadius: "12px",
