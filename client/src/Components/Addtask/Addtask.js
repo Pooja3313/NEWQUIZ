@@ -10,11 +10,12 @@ const Addtask = () => {
   const [tasks, setTasks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
-  const [userAnswer, setUserAnswer] = useState("");
+  const [answer, setAnswer] = useState("");
   const [timeLeft, setTimeLeft] = useState(null);
   const [mistakes, setMistakes] = useState(0);
-  const [status, setStatus] = useState(0);
+  const [status, setStatus] = useState(null);
   const [taskStarted, setTaskStarted] = useState(false);
+  const [expandedTaskId, setExpandedTaskId] = useState(null);
   const navigate = useNavigate();
 
   const { UserIDFROMLSGet, logout } = useAuth();
@@ -81,15 +82,15 @@ const Addtask = () => {
 
   const handleTaskClick = (task) => {
     if (task.status !== "Not Completed") {
-      toast.error("Task is already completed.");
+      setExpandedTaskId(expandedTaskId === task._id ? null : task._id);
       return;
     }
     setCurrentTask(task);
-    setUserAnswer(""); // Reset the answer field
+    setAnswer(""); // Reset the answer field
     setMistakes(0); // Reset mistakes
     setTaskStarted(false); // Reset task started state
     setTimeLeft(null); // Reset the timer
-    setShowForm(false);
+    // setShowForm(false);
   };
 
   const startTask = () => {
@@ -116,13 +117,13 @@ const Addtask = () => {
 
   useEffect(() => {
     countMistakes();
-  }, [userAnswer]);
+  }, [answer]);
 
   const countMistakes = () => {
     if (!currentTask) return 0;
 
-    const correctWords = currentTask.questionText.split(" ");
-    const answerWords = userAnswer.trim().split(" ");
+    const correctWords = currentTask.questionText.split(" ").filter(Boolean);
+    const answerWords = answer.split(" ").filter(Boolean);
     let mistakes = 0;
 
     for (let i = 0; i < correctWords.length; i++) {
@@ -130,7 +131,6 @@ const Addtask = () => {
         mistakes++;
       }
     }
-
     setMistakes(mistakes);
     return mistakes;
   };
@@ -144,7 +144,7 @@ const Addtask = () => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          answer: userAnswer,
+          answer: answer,
           mistakes: mistakesCount,
           status: statuss,
         }),
@@ -156,7 +156,7 @@ const Addtask = () => {
         setTimeout(() => {
           setStatus(null); // Reset status after a short delay
           setCurrentTask(null);
-          setUserAnswer("");
+          setAnswer("");
           setTimeLeft(null);
           fetchTasks();
         }, 2000);
@@ -213,7 +213,7 @@ const Addtask = () => {
         <h2 style={{ marginBottom: "20px" }}>Your Tasks</h2>
         {tasks.length > 0 ? (
           <ul style={{ listStyleType: "none", padding: 0 }}>
-            {tasks.map((task) => (
+            {tasks.map((task, index) => (
               <li key={task._id}>
                 <button
                   style={{
@@ -250,12 +250,17 @@ const Addtask = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {task.questionText}
+                    {/* (ID: {task._id}) */}
+                    {index + 1}. {task.questionText}
                   </span>
                   <span
                     style={{
                       backgroundColor:
-                        task.status === "Not Completed" ? "#e67e22" : task.status==="Passed"? "#27ae60" :"#D22B2B",
+                        task.status === "Not Completed"
+                          ? "#e67e22"
+                          : task.status === "Passed"
+                          ? "#27ae60"
+                          : "#D22B2B",
                       color: "#ecf0f1",
                       padding: "5px 10px",
                       borderRadius: "12px",
@@ -269,6 +274,30 @@ const Addtask = () => {
                     {task.status}
                   </span>
                 </button>
+                {expandedTaskId === task._id && (
+                  <div
+                    style={{
+                      padding: "10px",
+                      backgroundColor: "#f4f6f7",
+                      borderRadius: "8px",
+                      marginTop: "5px",
+                      color:"#000000",
+                    }}
+                  >
+                    <p>
+                      <strong>Question:</strong> {task.questionText}
+                    </p>
+                    <p>
+                      <strong>Answer:</strong> {task.answer}
+                    </p>
+                    <p>
+                      <strong>Mistakes:</strong> {task.mistakes}
+                    </p>
+                    <p>
+                      <strong>Status:</strong> {task.status}
+                    </p>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -420,8 +449,8 @@ const Addtask = () => {
                     </div>
                   </div>
                   <textarea
-                    value={userAnswer}
-                    onChange={(e) => setUserAnswer(e.target.value)}
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}
                     style={{
                       width: "100%",
                       padding: "10px",
@@ -441,7 +470,7 @@ const Addtask = () => {
                       marginTop: "20px",
                     }}
                   >
-                    <button
+                    {/* <button
                       onClick={handleTaskUpdate}
                       style={{
                         backgroundColor: "#3498db",
@@ -461,7 +490,7 @@ const Addtask = () => {
                       }
                     >
                       Submit Answer
-                    </button>
+                    </button> */}
                     <div
                       style={{
                         fontSize: "18px",
