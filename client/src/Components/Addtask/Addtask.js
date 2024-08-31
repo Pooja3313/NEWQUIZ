@@ -213,93 +213,97 @@ const Addtask = () => {
         <h2 style={{ marginBottom: "20px" }}>Your Tasks</h2>
         {tasks.length > 0 ? (
           <ul style={{ listStyleType: "none", padding: 0 }}>
-            {tasks.map((task, index) => (
-              <li key={task._id}>
-                <button
-                  style={{
-                    backgroundColor: "#34495e",
-                    border: "none",
-                    padding: "12px 15px",
-                    textAlign: "left",
-                    width: "100%",
-                    cursor: "pointer",
-                    marginBottom: "10px",
-                    fontSize: "16px",
-                    borderRadius: "8px",
-                    color: "#ecf0f1",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  }}
-                  onMouseOver={(e) =>
-                    (e.currentTarget.style.backgroundColor = "#1abc9c")
-                  }
-                  onMouseOut={(e) =>
-                    (e.currentTarget.style.backgroundColor = "#34495e")
-                  }
-                  onClick={() => handleTaskClick(task)}
-                >
-                  <span
+            {tasks
+              .slice()
+              .reverse()
+              .map((task, index) => (
+                <li key={task._id}>
+                  <button
                     style={{
-                      flex: 1,
+                      backgroundColor: "#34495e",
+                      border: "none",
+                      padding: "12px 15px",
+                      textAlign: "left",
+                      width: "100%",
+                      cursor: "pointer",
+                      marginBottom: "10px",
                       fontSize: "16px",
-                      fontWeight: "bold",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {/* (ID: {task._id}) */}
-                    {index + 1}. {task.questionText}
-                  </span>
-                  <span
-                    style={{
-                      backgroundColor:
-                        task.status === "Not Completed"
-                          ? "#e67e22"
-                          : task.status === "Passed"
-                          ? "#27ae60"
-                          : "#D22B2B",
-                      color: "#ecf0f1",
-                      padding: "5px 10px",
-                      borderRadius: "12px",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      textTransform: "uppercase",
-                      display: "inline-block",
-                      textAlign: "center",
-                    }}
-                  >
-                    {task.status}
-                  </span>
-                </button>
-                {expandedTaskId === task._id && (
-                  <div
-                    style={{
-                      padding: "10px",
-                      backgroundColor: "#f4f6f7",
                       borderRadius: "8px",
-                      marginTop: "5px",
-                      color:"#000000",
+                      color: "#ecf0f1",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                     }}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#1abc9c")
+                    }
+                    onMouseOut={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#34495e")
+                    }
+                    onClick={() => handleTaskClick(task)}
                   >
-                    <p>
-                      <strong>Question:</strong> {task.questionText}
-                    </p>
-                    <p>
-                      <strong>Answer:</strong> {task.answer}
-                    </p>
-                    <p>
-                      <strong>Mistakes:</strong> {task.mistakes}
-                    </p>
-                    <p>
-                      <strong>Status:</strong> {task.status}
-                    </p>
-                  </div>
-                )}
-              </li>
-            ))}
+                    <span
+                      style={{
+                        flex: 1,
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {/* (ID: {task._id}) */}
+                      {/* {index + 1}. */}
+                       {task.questionText}
+                    </span>
+                    <span
+                      style={{
+                        backgroundColor:
+                          task.status === "Not Completed"
+                            ? "#e67e22"
+                            : task.status === "Passed"
+                            ? "#27ae60"
+                            : "#D22B2B",
+                        color: "#ecf0f1",
+                        padding: "5px 10px",
+                        borderRadius: "12px",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        textTransform: "uppercase",
+                        display: "inline-block",
+                        textAlign: "center",
+                      }}
+                    >
+                      {task.status}
+                    </span>
+                  </button>
+                  {expandedTaskId === task._id && (
+                    <div
+                      style={{
+                        padding: "10px",
+                        backgroundColor: "#f4f6f7",
+                        borderRadius: "8px",
+                        marginTop: "5px",
+                        color: "#000000",
+                      }}
+                    >
+                      <p>
+                        <strong>Question:</strong> {task.questionText}
+                      </p>
+                      <p>
+                        <strong>Answer:</strong> {task.answer}
+                      </p>
+                      <p>
+                        <strong>Mistakes:</strong> {task.mistakes}
+                      </p>
+                      <p>
+                        <strong>Status:</strong> {task.status}
+                      </p>
+                    </div>
+                  )}
+                </li>
+              ))}
           </ul>
         ) : (
           <p style={{ color: "#bdc3c7" }}>No tasks found.</p>
@@ -387,7 +391,7 @@ const Addtask = () => {
 
           {currentTask && (
             <div style={{ marginTop: "20px" }}>
-              <h3>questionTask: {currentTask.questionText}</h3>
+              <h3  style={{ color: "#000000",}}>QuestionTask: {currentTask.questionText}</h3>
               {!taskStarted ? (
                 <>
                   <button
