@@ -6,7 +6,6 @@ import "./register.css";
 
 const Register = () => {
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -28,11 +27,11 @@ const Register = () => {
     });
   };
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(user);
-    }
-  }, [formErrors]);
+  // useEffect(() => {
+  //   if (Object.keys(formErrors).length === 0) {
+  //     console.log(user);
+  //   }
+  // }, [formErrors]);
 
   const validate = (values) => {
     const errors = {};
@@ -68,10 +67,12 @@ const Register = () => {
 
   const PostData = async (e) => {
     e.preventDefault();
-    setFormErrors(validate(user));
-    setIsSubmit(true);
+    // setFormErrors(validate(user));
+    // setIsSubmit(true);
+    const validationErrors = validate(user);
+    setFormErrors(validationErrors);
 
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    if (Object.keys(validationErrors).length === 0) {
       try {
         const response = await fetch("/api/authh/register", {
           method: "POST",
@@ -90,16 +91,16 @@ const Register = () => {
             password: "",
             cpassword: "",
           });
-          setIsSubmit(false);
+         
           navigate("/login");
         } else {
           toast.error("Registration failed");
-          setIsSubmit(false);
+         
         }
       } catch (error) {
         console.error("Error", error);
         toast.error("An error occurred. Please try again.");
-        setIsSubmit(false);
+       
       }
     }
   };

@@ -73,7 +73,7 @@ const createTask = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const existingTask = await Task.findOne({ questionText });
+    const existingTask = await Task.findOne({ questionText,userID });
     if (existingTask) {
       return res.status(400).json({ message: "Question already exists" });
     }

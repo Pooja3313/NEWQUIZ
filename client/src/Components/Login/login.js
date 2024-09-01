@@ -8,7 +8,7 @@ import { useAuth } from "../Store/authh";
 const Login = () => {
 
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
+
   const navigate = useNavigate();
 
   const { storeTokenInLS, storeUserIDInLS } = useAuth();
@@ -49,9 +49,12 @@ const Login = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    setFormErrors(validate(user));
-    setIsSubmit(true);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    // setFormErrors(validate(user));
+    // setIsSubmit(true);
+    const validationErrors = validate(user);
+    setFormErrors(validationErrors);
+    
+    if (Object.keys(validationErrors).length === 0) {
     try {
       const response = await fetch("api/authh/login", {
         method: "POST",
@@ -67,17 +70,17 @@ const Login = () => {
         toast.success("Login Successful");
         storeTokenInLS(responseData.token);
         storeUserIDInLS(responseData.userId);
-        setIsSubmit(false);
+        // setIsSubmit(false);
         navigate("/addtask"); 
       }
       else {
         toast.error("Login failed");
-        setIsSubmit(false);
+        // setIsSubmit(false);
       }
     } catch (error) {
       console.log(error);
       toast.error("An error occurred. Please try again.");
-      setIsSubmit(false);
+      // setIsSubmit(false);
     }
   }
   };
