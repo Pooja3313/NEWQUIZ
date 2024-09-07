@@ -8,18 +8,11 @@ const Register = () => {
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    cpassword: "",
-  });
-
+  const [user, setUser] = useState({});
+  // console.log("user:", user);
   const handleInput = (e) => {
     console.log(e);
-    let name = e.target.name;
-    let value = e.target.value;
+    let { name, value } = e.target;
 
     setUser({
       ...user,
@@ -35,7 +28,8 @@ const Register = () => {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@gmail\.com$/i;
+   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+
     if (!values.name) {
       errors.name = "Username is required!";
     }
@@ -90,17 +84,17 @@ const Register = () => {
             phone: "",
             password: "",
             cpassword: "",
+            usertype:"",
+            secretKey:"",
           });
-         
+
           navigate("/login");
         } else {
           toast.error("Registration failed");
-         
         }
       } catch (error) {
         console.error("Error", error);
         toast.error("An error occurred. Please try again.");
-       
       }
     }
   };
@@ -201,6 +195,57 @@ const Register = () => {
                       />
                       <p className="text-danger">{formErrors.cpassword}</p>
                     </div>
+
+                    <div className="col-12">
+                      <label for="userType" className="form-label">
+                        User Type
+                      </label>
+                      <div className="row">
+                        <div class="form-check col-lg-6">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="usertype"
+                            id="user"
+                            value="user"
+                            onChange={handleInput}
+                          />
+                          <label class="form-check-label" for="userType">
+                            User
+                          </label>
+                        </div>
+                        <div class="form-check col-lg-6">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="usertype"
+                            id="admin"
+                            value="admin"
+                            onChange={handleInput}
+                          />
+                          <label class="form-check-label" for="userType">
+                            Admin
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    {/* console.log("Sending Data:", user); */}
+                    {user.usertype === "admin" ? (
+                      <div className="col-6">
+                        <label for="yourSecretKey" className="form-label">
+                          Secret Key
+                        </label>
+                        <input
+                          type="text"
+                          name="secretKey"
+                          className="form-control"
+                          id="yourSecretKey"
+                          required
+                          value={user.secretKey}
+                          onChange={handleInput}
+                        />
+                      </div>
+                    ) : null}
 
                     <div className="col-12">
                       <button

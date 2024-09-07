@@ -24,6 +24,7 @@ const Addtask = () => {
     const storedUserID = UserIDFROMLSGet();
     if (storedUserID) {
       setUserID(storedUserID);
+      
     } else {
       console.error("No userID found in local storage.");
       // toast.error("Failed to retrieve user ID. Please log in again.");
@@ -33,6 +34,7 @@ const Addtask = () => {
 
   useEffect(() => {
     if (userID) {
+      console.log("p1",userID);
       fetchTasks();
     }
   }, [userID]);
@@ -43,7 +45,7 @@ const Addtask = () => {
 
       if (response.ok) {
         const fetchedTasks = await response.json();
-        // console.log("p1", fetchedTasks);
+        console.log("p1", fetchedTasks);
         setTasks(fetchedTasks.tasks);
       } else {
         const result = await response.json();
@@ -168,11 +170,11 @@ const Addtask = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout(); // Clear the user session and data
-    toast.success("Logged out successfully!");
-    navigate("/"); // Redirect to the registration page
-  };
+  // const handleLogout = () => {
+  //   logout(); // Clear the user session and data
+  //   toast.success("Logged out successfully!");
+  //   navigate("/"); // Redirect to the registration page
+  // };
 
   return (
     <div
@@ -182,7 +184,7 @@ const Addtask = () => {
         backgroundColor: "#f5f5f5",
       }}
     >
-      <button
+      {/* <button
         onClick={handleLogout}
         style={{
           position: "absolute",
@@ -200,7 +202,7 @@ const Addtask = () => {
         onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#e74c3c")}
       >
         Logout
-      </button>
+      </button> */}
       <div
         style={{
           width: "25%",

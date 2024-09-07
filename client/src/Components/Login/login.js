@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../App";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from "../Store/authh";
@@ -11,13 +10,15 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { storeTokenInLS, storeUserIDInLS } = useAuth();
+  const { storeTokenInLS, storeUserIDInLS , StoreUserTypeINLS,StoreIsAdminINLS} = useAuth();
 
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ });
+  // console.log("user login", user);
 
   const handleInput = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
+    console.log(e);
+    let {name, value} = e.target;
+    
 
     setUser({
       ...user,
@@ -28,7 +29,7 @@ const Login = () => {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@gmail\.com$/i;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
    
     if (!values.email) {
       errors.email = "Email is required!";
@@ -67,11 +68,38 @@ const Login = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log("after login: ", responseData);
-        toast.success("Login Successful");
-        storeTokenInLS(responseData.token);
-        storeUserIDInLS(responseData.userId);
-        // setIsSubmit(false);
-        navigate("/addtask"); 
+        if(response.status == 202){
+          toast.success("Admin Login Successful");
+          setUser({
+            email: "",
+            password: "",
+           
+          });
+
+          storeTokenInLS(responseData.token);
+          storeUserIDInLS(responseData.userId);
+          StoreUserTypeINLS(responseData.usertype);
+          StoreIsAdminINLS(responseData.isAdmin);
+          navigate("/");
+
+        }
+        else if(responseData.status == 201){
+          toast.success(" User Login Successful");
+          setUser({
+            email: "",
+            password: "",
+           
+          });
+          storeTokenInLS(responseData.token);
+          storeUserIDInLS(responseData.userId);
+          StoreUserTypeINLS(responseData.usertype);
+          StoreIsAdminINLS(responseData.isAdmin);
+          
+          // setIsSubmit(false);
+          navigate("/addtask"); 
+
+        }
+     
       }
       else {
         toast.error("Login failed");
@@ -147,7 +175,7 @@ const Login = () => {
                     <div className="col-12">
                       <p className="small mb-0">
                         Don't have account?{" "}
-                        <a href="/">Create an account</a>
+                        <a href="/register">Create an account</a>
                       </p>
                     </div>
                   </form>

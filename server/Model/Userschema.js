@@ -7,6 +7,8 @@ const Userschema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  // isactive
+  // usertype
   email: {
     type: String,
     required: true,
@@ -23,6 +25,24 @@ const Userschema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  usertype: {
+    type: String,
+    enum: ["user", "admin"], 
+    required: true,
+  },
+  isAdmin:{
+    type: Boolean,
+    default :false,
+  },
+
+//   secretKey: {
+//     type: String,
+//     required: function() {
+//         return this.usertype === 'admin'; // Secret key is required only for admins
+//     }
+// },
+
 });
 
 //? secure the password with the bcrypt
@@ -50,7 +70,8 @@ Userschema.pre("save", async function () {
 Userschema.methods.generateToken = async function () {
   try {
     return jwt.sign(
-      { userId: this._id.toString(), email: this.email, isValid: this.isValid },
+      { userId: this._id.toString(), email: this.email, 
+        usertype: this.usertype, isValid: this.isValid },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "30d" }
     );
