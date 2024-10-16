@@ -22,8 +22,6 @@ const User = () => {
     });
   };
 
-
-
   useEffect(() => {  
     fetchUsers();
   }, [TokenFROMLSGet]);
@@ -191,7 +189,8 @@ const User = () => {
         </Table>
       </Box>
        {/* Modal for updating user */}
-       <Modal open={openModal} onClose={() => setOpenModal(false)}>
+     {/* onclose is Event of js like onClick when we press esc then openmodal set false and form is close. this logic for that   */}
+       <Modal open={openModal} onClose={() => setOpenModal(false)}> 
         <Box sx={{ p: 4, backgroundColor: 'white', width: '400px', margin: 'auto', mt: 10, borderRadius: '8px' }}>
           <Typography variant="h6" sx={{ mb: 2 }}>Update User</Typography>
           <TextField

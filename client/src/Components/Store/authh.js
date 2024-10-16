@@ -1,6 +1,5 @@
-import { createContext, useContext ,useState,useEffect} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
-
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState("");
@@ -8,14 +7,13 @@ export const AuthProvider = ({ children }) => {
   const [usertype, setUsertype] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
 
-
   let isLoggedIn = !!token;
   // let isUsertype = !!usertype;
   // let isAdmin = usertype === "admin";
   console.log("isAdmins", isAdmin);
   // console.log("userID", userID)
   // console.log("isLoggedin ", isLoggedIn);
-// check when page refresh this useEffect useCallback(mount) and check localstorage token and update it
+  // check when page refresh this useEffect useCallback(mount) and check localstorage token and update it
   useEffect(() => {
     const storedToken = TokenFROMLSGet();
     const storedIsAdmin = IsAdminFROMLSGet();
@@ -26,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       setIsAdmin(storedIsAdmin); // Set the isAdmin if found
       console.log("store authh file", isAdmin);
     }
-  }, [])
+  }, []);
 
   //function to stored the token in local storage Importtant
   const storeTokenInLS = (serverToken) => {
@@ -37,10 +35,10 @@ export const AuthProvider = ({ children }) => {
     // setUserID(serverUserid);
     return localStorage.setItem("userid", serverUserid);
   };
-  const UserIDFROMLSGet= () => {
+  const UserIDFROMLSGet = () => {
     return localStorage.getItem("userid");
   };
-  const TokenFROMLSGet= () => {
+  const TokenFROMLSGet = () => {
     return localStorage.getItem("token");
   };
 
@@ -51,15 +49,14 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem("isAdmin");
   };
   const StoreIsAdminINLS = (serverIsAdmin) => {
-    setIsAdmin(serverIsAdmin);   // important
-   localStorage.setItem("isAdmin", serverIsAdmin);
-    
+    setIsAdmin(serverIsAdmin); // important
+    localStorage.setItem("isAdmin", serverIsAdmin);
   };
   // if our project 3-4 usertype then we usertype for authentication & given authorization
   const StoreUserTypeINLS = (serverUsertype) => {
     setUsertype(serverUsertype);
     localStorage.setItem("usertype", serverUsertype);
-    // console.log("Stored usertype:",storeUserTypeINLS); 
+    // console.log("Stored usertype:",storeUserTypeINLS);
   };
   // Function to clear token and user ID from local storage (logout)
   const logout = () => {
@@ -72,9 +69,22 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userid");
   };
- 
+
   return (
-    <AuthContext.Provider value={{StoreIsAdminINLS,isAdmin,UserTypeFROMLSGet,StoreUserTypeINLS,TokenFROMLSGet,isLoggedIn,storeTokenInLS, storeUserIDInLS, UserIDFROMLSGet, logout }}>
+    <AuthContext.Provider
+      value={{
+        StoreIsAdminINLS,
+        isAdmin,
+        UserTypeFROMLSGet,
+        StoreUserTypeINLS,
+        TokenFROMLSGet,
+        isLoggedIn,
+        storeTokenInLS,
+        storeUserIDInLS,
+        UserIDFROMLSGet,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

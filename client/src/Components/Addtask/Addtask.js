@@ -149,6 +149,7 @@ const Addtask = () => {
           answer: answer,
           mistakes: mistakesCount,
           status: statuss,
+
         }),
       });
       const result = await response.json();
