@@ -3,16 +3,7 @@ const Task = require("../Model/Taskschema");
 
 const register = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      phone,
-      password,
-      cpassword,
-      usertype,
-      secretKey,
-      isAdmin,
-    } = req.body;
+    const {name,email, phone,password,cpassword,usertype,secretKey } = req.body;
 
     const userExist = await Userss.findOne({ email });
 
@@ -23,9 +14,7 @@ const register = async (req, res) => {
       return res.status(400).json({ error: "Passwords do not match." });
     }
     if (usertype === "admin" && secretKey !== "admins") {
-      return res
-        .status(403)
-        .json({ error: "Invalid secret key for admin registration." });
+      return res.status(403).json({ error: "Invalid secret key for admin registration." });
     }
     // if we don't want add secretkey ib schema or collection then we have not pass in userss.create
     const userCreated = await Userss.create({
@@ -36,6 +25,7 @@ const register = async (req, res) => {
       cpassword,
       usertype,
       isAdmin: usertype === "admin" ? true : false,
+      // isAdmin: usertype === "admin" && secretKey === "admins",
     });
 
     if (!userCreated) {
@@ -43,13 +33,11 @@ const register = async (req, res) => {
     }
 
     // res.status(201).json({ message: "User registered successfully" });
-    res
-      .status(201)
-      .json({
-        msg: `${
-          usertype.charAt(0).toUpperCase() + usertype.slice(1)
-        } Registration Successful`,
-      });
+    res.status(201).json({
+      msg: `${
+        usertype.charAt(0).toUpperCase() + usertype.slice(1)
+      } Registration Successful`,
+    });
     // token: await userCreated.generateToken(), userId: userCreated._id.toString(),
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
@@ -71,27 +59,23 @@ const login = async (req, res) => {
     console.log(isPasswordValid);
     if (isPasswordValid) {
       if (userExist.usertype === "user") {
-        return res
-          .status(201)
-          .json({
-            status: 201,
-            message: "User Login Successful",
-            token: await userExist.generateToken(),
-            userId: userExist._id.toString(),
-            usertype:userExist.usertype.toString(),
-            isAdmin: userExist.isAdmin,
-          });
+        return res.status(201).json({
+          status: 201,
+          message: "User Login Successful",
+          token: await userExist.generateToken(),
+          userId: userExist._id.toString(),
+          usertype: userExist.usertype.toString(),
+          isAdmin: userExist.isAdmin,
+        });
       } else if (userExist.usertype === "admin") {
-        return res
-          .status(202)
-          .json({
-            status: 202,
-            message: "Admin Login Successful",
-            token: await userExist.generateToken(),
-            userId: userExist._id.toString(),
-            usertype:userExist.usertype.toString(),
-            isAdmin: userExist.isAdmin,
-          });
+        return res.status(202).json({
+          status: 202,
+          message: "Admin Login Successful",
+          token: await userExist.generateToken(),
+          userId: userExist._id.toString(),
+          usertype: userExist.usertype.toString(),
+          isAdmin: userExist.isAdmin,
+        });
       } else {
         return res.status(401).json({ status: 401, message: "Login failed" });
       }

@@ -1,6 +1,5 @@
-// const JobListing = require('../model/JoblistSchema');
-// const mongoose =  require('mongoose');
-const express =require('express');
+
+const express = require('express');
 const router = express.Router();
 const authcontrollers = require("../controller/auth-controller");
 const authMiddleware = require("../middleware/authmiddleware");

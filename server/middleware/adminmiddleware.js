@@ -1,7 +1,9 @@
+
+
 // Middleware to check if user is an admin
 const adminMiddleware = async (req, res, next) => {
   try{
-    console.log(req.user)
+    console.log("POOJA", req.user);
     const user = req.user;  // Get the user from the authMiddleware
 
   if (user.isAdmin) {
