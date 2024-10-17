@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Logout } from "./Components/Logout/logout";
 import Navbar from "./Components/Navbar/Navbar";
 import User from "./Components/User/user";
-import Product from "./Components/product/Product";
+
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/addtask" element={<Addtask />} />
         <Route path="/user" element={<User />} />
-        {/* <Route path="/product" element={<Product />} /> */}
+        
       </Routes>
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} /> {/* Add ToastContainer */}
     </>
