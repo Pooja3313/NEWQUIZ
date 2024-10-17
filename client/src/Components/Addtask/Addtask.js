@@ -394,7 +394,7 @@ const Addtask = () => {
 
           {currentTask && (
             <div style={{ marginTop: "20px" }}>
-              <h3  style={{ color: "#000000",}}>QuestionTask: {currentTask.questionText}</h3>
+              <h3  style={{ color: "#000000"}}>QuestionTask:{currentTask.questionText}</h3>
               {!taskStarted ? (
                 <>
                   <button
