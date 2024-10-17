@@ -29,7 +29,7 @@ const User = () => {
   const fetchUsers = async () => {
     try {
       const token = TokenFROMLSGet();
-      const response = await fetch('/api/authh/getAllUsers', {
+      const response = await fetch('https://newquiz-e2nh.onrender.com/api/authh/getAllUsers', {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`, // If token is required for authentication
@@ -46,7 +46,7 @@ const User = () => {
   const deleteUser = async (id) => {
     try {
       const token = TokenFROMLSGet();
-      const response = await fetch(`/api/authh/delete/${id}`, {
+      const response = await fetch(`https://newquiz-e2nh.onrender.com/api/authh/delete/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const User = () => {
   const updateUser = async () => {
     try {
       const token = TokenFROMLSGet();
-      const response = await fetch(`/api/authh/update/${selectedUser._id}`, {
+      const response = await fetch(`https://newquiz-e2nh.onrender.com/api/authh/update/${selectedUser._id}`, {
         method: 'PATCH',
         headers: {
           // most important line this line without data not update beacuse we pass data in json format hame batana padega kah keh me joh data bhej raha hu uski content- type application/json formta hai
