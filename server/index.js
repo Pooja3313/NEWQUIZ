@@ -9,7 +9,7 @@ const authRouter = require('./router/auth');
 
 
 const corsOptions = {
-    origin: "https://newquiz-4gt3fjzyu-pooja3313s-projects.vercel.app",
+    origin: "https://newquiz-swart.vercel.app",
     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
     credentials: true,
   };
