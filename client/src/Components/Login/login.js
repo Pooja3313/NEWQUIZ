@@ -57,7 +57,7 @@ const Login = () => {
     
     if (Object.keys(validationErrors).length === 0) {
     try {
-      const response = await fetch("/api/authh/login", {
+      const response = await fetch("https://newquiz-e2nh.onrender.com/api/authh/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

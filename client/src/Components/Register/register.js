@@ -68,7 +68,7 @@ const Register = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await fetch("/api/authh/register", {
+        const response = await fetch("https://newquiz-e2nh.onrender.com/api/authh/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
