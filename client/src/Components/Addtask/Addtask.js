@@ -41,7 +41,7 @@ const Addtask = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(`https://newquiz-e2nh.onrender.com/api/authh/alltaskget/${userID}`);
+      const response = await fetch(`https://newquiz-41r7.onrender.com/api/authh/alltaskget/${userID}`);
 
       if (response.ok) {
         const fetchedTasks = await response.json();
@@ -62,7 +62,7 @@ const Addtask = () => {
     const taskData = { questionText, userID };
 
     try {
-      const response = await fetch("https://newquiz-e2nh.onrender.com/api/authh/createtask", {
+      const response = await fetch("https://newquiz-41r7.onrender.com/api/authh/createtask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(taskData),
@@ -142,7 +142,7 @@ const Addtask = () => {
       const mistakesCount = countMistakes();
       const statuss = mistakesCount === 0 ? "Passed" : "Failed";
 
-      const response = await fetch(`https://newquiz-e2nh.onrender.com/api/authh/updatetask/${currentTask._id}`, {
+      const response = await fetch(`https://newquiz-41r7.onrender.com/api/authh/updatetask/${currentTask._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
